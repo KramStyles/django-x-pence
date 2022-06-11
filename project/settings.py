@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # CREATED APPS
+    'expenses.apps.ExpensesConfig',
+
     # PIP INSTALLS
     'rest_framework',
     'drf_yasg',
