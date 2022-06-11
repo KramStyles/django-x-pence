@@ -1,3 +1,8 @@
 from django.shortcuts import render
 
-# Create your views here.
+
+def login(request):
+    context = {
+        'title': 'login'
+    }
+    return render(request, 'authentication/login.html', context)

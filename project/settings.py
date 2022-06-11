@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     # CREATED APPS
     'expenses.apps.ExpensesConfig',
+    'authentication.apps.AuthenticationConfig',
 
     # PIP INSTALLS
     'rest_framework',
