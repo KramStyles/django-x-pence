@@ -1,8 +1,10 @@
 from django.shortcuts import render
+from django.views import View
 
 
-def login(request):
-    context = {
-        'title': 'login'
-    }
-    return render(request, 'authentication/login.html', context)
+class LoginView(View):
+    def get(self, request):
+        context = {
+            'title': 'login'
+        }
+        return render(request, 'authentication/login.html', context)
