@@ -1,8 +1,31 @@
 {% extends 'base.html' %}
 {% block main-content %}
     <div class="auth-container">
-        <form action="">
-            
+        <form action="" method="post">
+            <div class="card p-3">
+                <div class="card-title">
+                    <h5 class="text-center my-5 text-uppercase fw-light">Register for a free Account</h5>
+                </div>
+                <div class="form-group mb-3">
+                    <input type="text" name="username" id="txtUsername" class="form-control mb-1" placeholder="Username">
+                    <small id="userHelp" class="form-text text-muted">Username Info.</small>
+                </div>
+
+                <div class="form-group mb-3">
+                    <input type="email" name="email" id="txtEmail" class="form-control mb-1" placeholder="Email Address">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+
+                <div class="form-group mb-3">
+                    <input type="password" name="password" id="txtPassword" class="form-control mb-1" placeholder="Password">
+                    <small id="passwordHelp" class="form-text text-muted">Password information.</small>
+                </div>
+
+                <div class="form-group mb-3">
+                    <input type="password" name="confirm" id="txtConfirm" class="form-control mb-1" placeholder="Confirm Password">
+                    <small id="cofirmHelp" class="form-text text-muted">Password information.</small>
+                </div>
+            </div>
         </form>
     </div>
 {% endblock %}
