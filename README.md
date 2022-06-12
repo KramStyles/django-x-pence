@@ -1,3 +1,6 @@
-# django-react-auth
-This is my first project combining Django and React. I would be creating a 
-register and login program with tokens, 2FA Authentication and Google email login
+# X-Pence 
+
+This is an expense tracking application. Input the following commands in the terminal
+
+1. `pip install -r requirements.txt`
+2. `django r`
