@@ -53,3 +53,15 @@
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
 }
+
+.auth-container{
+    min-height: 100vh;
+    display: flex;
+}
+
+.auth-container form{
+    background-color: red;
+    min-height: 400px;
+    width: 40%;
+    margin: auto;
+}
