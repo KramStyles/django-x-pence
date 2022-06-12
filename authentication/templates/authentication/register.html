@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block main-content %}
     <div class="auth-container">
         <form action="" method="post">
@@ -35,4 +36,5 @@
 
         </form>
     </div>
+    <script src="{% static 'js/authentication/register.js' %}"></script>
 {% endblock %}

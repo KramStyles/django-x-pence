@@ -1,5 +1,6 @@
 import json
 
+from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views import View
@@ -30,5 +31,11 @@ class UsernameValidationView(View):
         username = data['username']
 
         if not username.strip().isalnum():
-            return JsonResponse({'username_error': 'Invalid username. Only alphanumerics allowed'}, status=400)
-        return JsonResponse({'username_valid': True})
+            msg = 'Invalid username. Only alphanumerics allowed'
+            status_code = 400
+        elif User.objects.filter(username=username).exists():
+            msg = 'User already exists'
+            status_code = 409
+        else:
+            return JsonResponse({'username_valid': True})
+        return JsonResponse({'username_error': msg}, status=status_code)
