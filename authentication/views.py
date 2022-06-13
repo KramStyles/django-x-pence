@@ -18,6 +18,14 @@ class LoginView(View):
         }
         return render(request, 'authentication/login.html', context)
 
+    def post(self, request):
+        context = {
+            'title': 'Sign In'
+        }
+        messages.success(request, 'Hello and good day')
+        messages.error(request, 'Hello and bahd day')
+        return render(request, 'authentication/login.html', context)
+
 
 class RegisterView(View):
     def get(self, request):
@@ -25,15 +33,6 @@ class RegisterView(View):
             'title': 'Registration'
         }
         return render(request, 'authentication/register.html', context)
-
-    def post(self, request):
-        context = {
-            'title': 'Registration'
-        }
-        messages.success(request, 'Hello and good day')
-        messages.error(request, 'Hello and bahd day')
-        return render(request, 'authentication/register.html', context)
-
 
 # REQUESTS
 

@@ -6,6 +6,18 @@ const confirmField = document.getElementById('txtConfirm');
 const showPassword = document.getElementById('showPassword');
 const showConfirm = document.getElementById('showConfirm');
 
+const regForm = document.getElementById('reg-form');
+
+// Values to hold if form validation is completed
+let list = [0, 0, 0, 0]
+
+const all = (iterable) => {
+    for (let index = 0; index < iterable.length; index++) {
+        if (!iterable[index]) return false;
+    }
+    return true;
+}
+
 const myFetch = (url, requestData) => {
     fetch(url, {
         body: JSON.stringify(requestData),
@@ -15,7 +27,7 @@ const myFetch = (url, requestData) => {
     })
 }
 
-const myAjax = (url, requestData, info_bearer, self) => {
+const myAjax = (url, requestData, info_bearer, self, updated) => {
     let _bearer = $(`#${info_bearer}`);
     const _self = $(`#${self}`);
     _bearer.html(`<i class='fa fa-fan fa-spin'></i>`);
@@ -28,6 +40,7 @@ const myAjax = (url, requestData, info_bearer, self) => {
             _bearer.replaceWith(`<small id="${info_bearer}" class="form-text text-success">Available</small>`);
             _bearer.slideUp();
             _self.removeClass('is-invalid');
+            list[updated] = 1
             setTimeout(() => {
                 _bearer = $(`#${info_bearer}`);
                 _bearer.html('');
@@ -36,6 +49,7 @@ const myAjax = (url, requestData, info_bearer, self) => {
         error: function (err){
             _bearer.replaceWith(`<small id="${info_bearer}" class="form-text text-danger">${err.responseJSON['_error']}</small>`);
             _self.addClass('is-invalid');
+            list[updated] = 0
         }
     })
 }
@@ -44,7 +58,7 @@ const myAjax = (url, requestData, info_bearer, self) => {
 usernameField.addEventListener('focusout', (e) => {
     const url = "/auth/validate_username/";
     if (e.target.value.length > 0){
-             myAjax(url, {username: e.target.value}, 'userHelp', e.target.id);
+             myAjax(url, {username: e.target.value}, 'userHelp', e.target.id, 0);
     }
 })
 
@@ -52,7 +66,7 @@ usernameField.addEventListener('focusout', (e) => {
 emailField.addEventListener('focusout', (e) => {
     const url = "/auth/validate_email/";
     if (e.target.value.length > 0){
-             myAjax(url, {email: e.target.value}, 'emailHelp', e.target.id);
+             myAjax(url, {email: e.target.value}, 'emailHelp', e.target.id, 1);
     }
 })
 
@@ -60,17 +74,19 @@ emailField.addEventListener('focusout', (e) => {
 passwordField.addEventListener('focusout', (e) => {
     const url = "/auth/validate_password/";
     if (e.target.value.length > 0){
-             myAjax(url, {password: e.target.value}, 'passwordHelp', e.target.id);
+             myAjax(url, {password: e.target.value}, 'passwordHelp', e.target.id, 2);
     }
 })
 
 confirmField.addEventListener('focusout', (e)=> {
     const password = $('#txtPassword');
     const help = $('#confirmHelp');
-    if (password.val() != e.target.value){
+    if (password.val() !== e.target.value){
         help.replaceWith(`<small id="confirmHelp" class="form-text text-danger">Passwords don't match</small>`);
+        list[3] = 0;
     } else {
         help.html('');
+        list[3] = 1;
     }
 })
 
@@ -93,5 +109,14 @@ showPassword.addEventListener('click', (e) => {
     else {
         passwordField.type = 'password'
         e.target.textContent = 'show password'
+    }
+})
+
+regForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if(all(list)){
+        alert('hello')
+    } else {
+        alert('Relevant information missing')
     }
 })
