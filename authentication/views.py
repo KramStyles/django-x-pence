@@ -38,4 +38,4 @@ class UsernameValidationView(View):
             status_code = 409
         else:
             return JsonResponse({'username_valid': True})
-        return JsonResponse({'username_error': msg}, status=status_code)
+        return JsonResponse({'_error': msg}, status=status_code)
