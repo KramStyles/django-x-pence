@@ -1,45 +1,13 @@
-import json, string, urllib, urllib.request, calendar, datetime, random, re
+import json, string, calendar, datetime, random, re
 
 
-class functions:
+class Functions:
     def add_months(self, sourcedate, months):
         month = sourcedate.month - 1 + months
         year = sourcedate.year + month // 12
         month = month % 12 + 1
         day = min(sourcedate.day, calendar.monthrange(year, month)[1])
         return datetime.date(year, month, day)
-
-    def deleter(self, table, condition=''):
-        conn = self.connect()
-        try:
-            sql = "DELETE FROM {} {}".format(table, condition)
-            print(sql)
-            with conn.cursor() as con:
-                con.execute(sql)
-                conn.commit()
-                msg = 'ok'
-        except Exception as err:
-            msg = err
-            print(err)
-        finally:
-            conn.close()
-        return msg
-
-    def updater(self, table, update, where=''):
-        conn = self.connect()
-        try:
-            sql = "UPDATE {} SET {} {}".format(table, update, where)
-            print(sql)
-            with conn.cursor() as con:
-                con.execute(sql)
-                conn.commit()
-                msg = 'ok'
-        except Exception as err:
-            msg = err
-            print(err)
-        finally:
-            conn.close()
-        return msg
 
     def seckey(self, a, b):
         rand = random.randint(a, b)
@@ -145,6 +113,31 @@ class functions:
             else:
                 return 'ok'
 
+    def validate_password(self, data):
+        """
+        Checks if password contains upper, lower and numeric characters.
+        The loop only runs once.
+        param: str(data)
+        output: bool
+        """
+        symbols = {'~', ':', "'", '+', '[', '\\', '@', '^', '{', '%', '(', '-', '"', '*', '|', ',', '&', '<', '`', '}', '.'}
+        conds = [False, False, False, False]
+        for char in data:
+            if all(conds): return True
+
+            if char.isdigit():
+                conds[0] = True
+            elif char.isupper():
+                conds[1] = True
+            elif char.islower():
+                conds[2] = True
+            elif char in symbols:
+                conds[3] = True
+        if all(conds):
+            return True
+        else:
+            return False
+
     def username(self, data):
         if data:
             data = data.lower()
@@ -161,7 +154,6 @@ class functions:
             if match != None:
                 email = True
             return email
-
 
     def python_to_json(self, data):
         try:
