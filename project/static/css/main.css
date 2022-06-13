@@ -72,10 +72,24 @@ h1, h2, h3, h4, h5, h6 {
 
 .auth-container form{
     min-height: 400px;
-    width: 40%;
+    width: 30%;
     margin: auto;
 }
 
 .hand{
     cursor: pointer;
+}
+
+
+@media screen and (max-width: 800px){
+    .auth-container form{
+        width: 60%;
+    }
+}
+
+
+@media screen and (max-width: 600px){
+    .auth-container form{
+        width: 90%;
+    }
 }

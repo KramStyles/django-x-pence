@@ -3,6 +3,8 @@
 {% block main-content %}
     <div class="auth-container">
         <form action="" method="post">
+            {% csrf_token %}
+
             <div class="card p-3">
                 <div class="card-title">
                     <h5 class="text-center my-5 text-uppercase fw-light">Register for a free Account</h5>
@@ -27,6 +29,10 @@
                     <input type="password" name="confirm" id="txtConfirm" class="form-control mb-1" placeholder="Confirm Password">
                     <small id="confirmHelp" class=""></small>
                     <small id="showConfirm" class="text-primary float-end hand">show confirm</small>
+                </div>
+
+                <div>
+                    {% include 'partials/messages.html' %}
                 </div>
 
                 <div class="d-grid">

@@ -1,5 +1,6 @@
 import json
 
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -23,6 +24,14 @@ class RegisterView(View):
         context = {
             'title': 'Registration'
         }
+        return render(request, 'authentication/register.html', context)
+
+    def post(self, request):
+        context = {
+            'title': 'Registration'
+        }
+        messages.success(request, 'Hello and good day')
+        messages.error(request, 'Hello and bahd day')
         return render(request, 'authentication/register.html', context)
 
 
