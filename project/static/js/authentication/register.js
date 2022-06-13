@@ -5,33 +5,35 @@ const myFetch = (url, requestData) => {
         method: "POST",
     }).then(response => response.json()).then((data) => {
         console.log(data);
-
     })
 }
 
-const myAjax = async (url, requestData) => {
-    let result = null;
+const myAjax = (url, requestData, info_bearer) => {
+    let _bearer = $(`#${info_bearer}`);
     $.ajax({
         url: url,
         method: 'POST',
         data: JSON.stringify(requestData),
         success: function (response){
-            console.log(response)
+            _bearer.replaceWith(`<small id="${info_bearer}" class="form-text text-success">Available</small>`);
+            _bearer.slideUp();
+            setTimeout(() => {
+                _bearer = $(`#${info_bearer}`);
+                _bearer.html('');
+            }, 2000);
         },
-        error: await function (err){
-            result = err
+        error: function (err){
+            _bearer.replaceWith(`<small id="${info_bearer}" class="form-text text-danger">${err.responseJSON['username_error']}</small>`);
         }
     })
-    return result
 }
 
-usernameField.addEventListener('focusout', async (e) => {
+usernameField.addEventListener('focusout', (e) => {
     const url = "/auth/validate_username/"
     if (e.target.value.length > 0){
-            const detail = await myAjax(url, {username: e.target.value});
-            console.log(detail);
-            if(detail){
-                console.log(detail['username_error'], 'hell')
-            }
+             myAjax(url, {username: e.target.value}, 'userHelp');
+            // if(detail){
+            //     console.log(detail['username_error'], 'hell')
+            // }
     }
 })
