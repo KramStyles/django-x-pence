@@ -1,6 +1,10 @@
 const usernameField = document.getElementById('txtUsername');
 const emailField = document.getElementById('txtEmail');
 const passwordField = document.getElementById('txtPassword');
+const confirmField = document.getElementById('txtConfirm');
+
+const showPassword = document.getElementById('showPassword');
+const showConfirm = document.getElementById('showConfirm');
 
 const myFetch = (url, requestData) => {
     fetch(url, {
@@ -30,7 +34,6 @@ const myAjax = (url, requestData, info_bearer, self) => {
             }, 2000);
         },
         error: function (err){
-            console.log(err, 'error')
             _bearer.replaceWith(`<small id="${info_bearer}" class="form-text text-danger">${err.responseJSON['_error']}</small>`);
             _self.addClass('is-invalid');
         }
@@ -58,5 +61,37 @@ passwordField.addEventListener('focusout', (e) => {
     const url = "/auth/validate_password/";
     if (e.target.value.length > 0){
              myAjax(url, {password: e.target.value}, 'passwordHelp', e.target.id);
+    }
+})
+
+confirmField.addEventListener('focusout', (e)=> {
+    const password = $('#txtPassword');
+    const help = $('#confirmHelp');
+    if (password.val() != e.target.value){
+        help.replaceWith(`<small id="confirmHelp" class="form-text text-danger">Passwords don't match</small>`);
+    } else {
+        help.html('');
+    }
+})
+
+showConfirm.addEventListener('click', (e) => {
+    if(confirmField.type === 'password') {
+        confirmField.type = 'text';
+        e.target.textContent = 'hide confirm'
+    }
+    else {
+        confirmField.type = 'password'
+        e.target.textContent = 'show confirm'
+    }
+})
+
+showPassword.addEventListener('click', (e) => {
+    if(passwordField.type === 'password') {
+        passwordField.type = 'text';
+        e.target.textContent = 'hide password'
+    }
+    else {
+        passwordField.type = 'password'
+        e.target.textContent = 'show password'
     }
 })

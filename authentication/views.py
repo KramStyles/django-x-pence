@@ -72,6 +72,6 @@ class PasswordValidationView(View):
             if func.validate_password(password):
                 return JsonResponse({'message': 'valid'})
             else:
-                msg = 'Password must contain al'
+                msg = 'Password must contain symbols, digits,  upper & lower characters'
                 status_code = 409
         return JsonResponse({'_error': msg}, status=status_code)
