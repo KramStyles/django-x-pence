@@ -7,6 +7,7 @@ const showPassword = document.getElementById('showPassword');
 const showConfirm = document.getElementById('showConfirm');
 
 const regForm = document.getElementById('reg-form');
+const result = $('#reg-result');
 
 // Values to hold if form validation is completed
 let list = [0, 0, 0, 0]
@@ -115,8 +116,9 @@ showPassword.addEventListener('click', (e) => {
 regForm.addEventListener('submit', (e) => {
     e.preventDefault();
     if(all(list)){
-        alert('hello')
+        result.html(`<div class="alert alert-success text-center">Registration Successful!</div>`)
     } else {
-        alert('Relevant information missing')
+        result.html(`<div class="alert alert-danger text-center">Missing relevant Information!</div>`)
+        setTimeout(() => {result.html('')}, 3000)
     }
 })
