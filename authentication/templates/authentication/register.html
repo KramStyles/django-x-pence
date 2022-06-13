@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block main-content %}
+    <div class="auth-container">
+        <form method="post" id="reg-form">
+            {% csrf_token %}
+
+            <div class="card p-3">
+                <div class="card-title">
+                    <h5 class="text-center my-5 text-uppercase fw-light">Register for a free Account</h5>
+                </div>
+                <div class="form-group mb-3">
+                    <input type="text" name="username" id="txtUsername" class="form-control mb-1" placeholder="Username" autocomplete="off">
+                    <small id="userHelp" class=""></small>
+                </div>
+
+                <div class="form-group mb-3">
+                    <input type="email" name="email" id="txtEmail" class="form-control mb-1" placeholder="Email Address" autocomplete="off">
+                    <small id="emailHelp" class=""></small>
+                </div>
+
+                <div class="form-group mb-3">
+                    <input type="password" name="password" id="txtPassword" class="form-control mb-1" placeholder="Password">
+                    <small id="passwordHelp" class=""></small>
+                    <small id="showPassword" class="text-primary float-end hand">show password</small>
+                </div>
+
+                <div class="form-group mb-3">
+                    <input type="password" name="confirm" id="txtConfirm" class="form-control mb-1" placeholder="Confirm Password">
+                    <small id="confirmHelp" class=""></small>
+                    <small id="showConfirm" class="text-primary float-end hand">show confirm</small>
+                </div>
+
+                <div id="reg-result">
+                    {% include 'partials/messages.html' %}
+
+                </div>
+
+                <div class="d-grid">
+                    <input type="submit" value="Sign Up" class="btn btn-block btn-primary">
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+{% block page_script %} <script src="{% static 'js/authentication/register.js' %}"></script> {% endblock %}
