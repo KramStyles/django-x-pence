@@ -34,6 +34,7 @@ class RegisterView(View):
         }
         return render(request, 'authentication/register.html', context)
 
+
 # REQUESTS
 
 class UsernameValidationView(View):
@@ -83,3 +84,10 @@ class PasswordValidationView(View):
                 msg = 'Password must contain symbols, digits,  upper & lower characters'
                 status_code = 409
         return JsonResponse({'_error': msg}, status=status_code)
+
+
+class SignUpView(View):
+    def post(self, request):
+        data = json.loads(request.body)
+        print(data)
+        return JsonResponse({'_msg': 'msg'}, status=200)

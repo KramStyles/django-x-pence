@@ -115,7 +115,18 @@ showPassword.addEventListener('click', (e) => {
 
 regForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    if(all(list)){
+
+    if(!all(list)){
+        $.ajax({
+            url: '/auth/signup/',
+            method: 'POST',
+            data: JSON.stringify($('#reg-form').serialize()),
+            success: function(data){
+                alert('success')
+            }, error: function (error){
+                alert('error')
+            }
+        })
         result.html(`<div class="alert alert-success text-center">Registration Successful!</div>`)
     } else {
         result.html(`<div class="alert alert-danger text-center">Missing relevant Information!</div>`)
