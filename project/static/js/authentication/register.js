@@ -6,7 +6,6 @@ const confirmField = document.getElementById('txtConfirm');
 const showPassword = document.getElementById('showPassword');
 const showConfirm = document.getElementById('showConfirm');
 
-const regForm = document.getElementById('reg-form');
 const result = $('#reg-result');
 
 // Values to hold if form validation is completed
@@ -113,14 +112,14 @@ showPassword.addEventListener('click', (e) => {
     }
 })
 
-regForm.addEventListener('submit', (e) => {
+$(document).on('submit', '#reg-form', (e) => {
     e.preventDefault();
 
-    if(!all(list)){
+    if(all(list)){
         $.ajax({
             url: '/auth/signup/',
             method: 'POST',
-            data: JSON.stringify($('#reg-form').serialize()),
+            data: $(this).serialize(),
             success: function(data){
                 alert('success')
             }, error: function (error){

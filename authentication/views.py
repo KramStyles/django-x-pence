@@ -72,6 +72,8 @@ class EmailValidationView(View):
 class PasswordValidationView(View):
     def post(self, request):
         data = json.loads(request.body)
+
+        print(type(data), 'hi')
         password = data['password']
 
         if len(password) < 4:
@@ -88,6 +90,11 @@ class PasswordValidationView(View):
 
 class SignUpView(View):
     def post(self, request):
-        data = json.loads(request.body)
-        print(data)
-        return JsonResponse({'_msg': 'msg'}, status=200)
+        data = request.POST
+
+        password = data['password']
+        email = data['email']
+        username = data['username']
+
+        print(email)
+        return JsonResponse({'_msg': 'hello'}, status=200)
