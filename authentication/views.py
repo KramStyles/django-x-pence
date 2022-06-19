@@ -50,6 +50,7 @@ class UsernameValidationView(View):
             status_code = 409
         else:
             return JsonResponse({'username_valid': True})
+        return JsonResponse({'message': 'valid'})
         return JsonResponse({'_error': msg}, status=status_code)
 
 
@@ -66,14 +67,13 @@ class EmailValidationView(View):
             status_code = 409
         else:
             return JsonResponse({'message': 'valid'})
+        return JsonResponse({'message': 'valid'})
         return JsonResponse({'_error': msg}, status=status_code)
 
 
 class PasswordValidationView(View):
     def post(self, request):
         data = json.loads(request.body)
-
-        print(type(data), 'hi')
         password = data['password']
 
         if len(password) < 4:
@@ -85,6 +85,7 @@ class PasswordValidationView(View):
             else:
                 msg = 'Password must contain symbols, digits,  upper & lower characters'
                 status_code = 409
+        return JsonResponse({'message': 'valid'})
         return JsonResponse({'_error': msg}, status=status_code)
 
 
@@ -92,9 +93,12 @@ class SignUpView(View):
     def post(self, request):
         data = request.POST
 
-        password = data['password']
-        email = data['email']
-        username = data['username']
+        print('hello', data)
 
-        print(email)
+        # print(request.body)
+        # password = data['password']
+        # email = data['email']
+        # username = data['username']
+        #
+        # print(email)
         return JsonResponse({'_msg': 'hello'}, status=200)
