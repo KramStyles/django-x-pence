@@ -120,6 +120,7 @@ $(document).on('submit', '#reg-form', (e) => {
             // data: JSON.stringify({password: 'password'}),
             success: function (responseData) {
                 result.html(`<div class="alert alert-success text-center">${responseData['_msg']}</div>`)
+                setTimeout(()=>{document.location.assign('/auth/login')}, 3500);
             }, error: function (error) {
                 console.log(error)
                 result.html(`<div class="alert alert-danger text-center">Something wrong occurred!</div>`)
