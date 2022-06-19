@@ -119,12 +119,15 @@ $(document).on('submit', '#reg-form', (e) => {
             data: $('#reg-form').serialize(),
             // data: JSON.stringify({password: 'password'}),
             success: function (responseData) {
-                alert('success')
+                result.html(`<div class="alert alert-success text-center">${responseData['_msg']}</div>`)
             }, error: function (error) {
-                alert('error')
+                console.log(error)
+                result.html(`<div class="alert alert-danger text-center">Something wrong occurred!</div>`)
             }
         })
-        result.html(`<div class="alert alert-success text-center">Registration Successful!</div>`)
+        setTimeout(() => {
+            result.html('')
+        }, 3000)
     } else {
         result.html(`<div class="alert alert-danger text-center">Missing relevant Information!</div>`)
         setTimeout(() => {
