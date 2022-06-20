@@ -72,8 +72,6 @@ class EmailValidationView(View):
 class PasswordValidationView(View):
     def post(self, request):
         data = json.loads(request.body)
-
-        print(type(data), 'hi')
         password = data['password']
 
         if len(password) < 4:
@@ -96,5 +94,8 @@ class SignUpView(View):
         email = data['email']
         username = data['username']
 
-        print(email)
-        return JsonResponse({'_msg': 'hello'}, status=200)
+        user = User.objects.create_user(username=username, email=email)
+        user.set_password(password)
+        user.save()
+
+        return JsonResponse({'_msg': 'Account created Successfully'}, status=200)

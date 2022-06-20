@@ -36,7 +36,7 @@ const myAjax = (url, requestData, info_bearer, self, updated) => {
         url: url,
         method: 'POST',
         data: JSON.stringify(requestData),
-        success: function (response){
+        success: function (response) {
             _bearer.replaceWith(`<small id="${info_bearer}" class="form-text text-success">Available</small>`);
             _bearer.slideUp();
             _self.removeClass('is-invalid');
@@ -46,7 +46,7 @@ const myAjax = (url, requestData, info_bearer, self, updated) => {
                 _bearer.html('');
             }, 2000);
         },
-        error: function (err){
+        error: function (err) {
             _bearer.replaceWith(`<small id="${info_bearer}" class="form-text text-danger">${err.responseJSON['_error']}</small>`);
             _self.addClass('is-invalid');
             list[updated] = 0
@@ -57,31 +57,31 @@ const myAjax = (url, requestData, info_bearer, self, updated) => {
 // Code to validate username field
 usernameField.addEventListener('focusout', (e) => {
     const url = "/auth/validate_username/";
-    if (e.target.value.length > 0){
-             myAjax(url, {username: e.target.value}, 'userHelp', e.target.id, 0);
+    if (e.target.value.length > 0) {
+        myAjax(url, {username: e.target.value}, 'userHelp', e.target.id, 0);
     }
 })
 
 // Code to validate email field
 emailField.addEventListener('focusout', (e) => {
     const url = "/auth/validate_email/";
-    if (e.target.value.length > 0){
-             myAjax(url, {email: e.target.value}, 'emailHelp', e.target.id, 1);
+    if (e.target.value.length > 0) {
+        myAjax(url, {email: e.target.value}, 'emailHelp', e.target.id, 1);
     }
 })
 
 // Code to validate password field
 passwordField.addEventListener('focusout', (e) => {
     const url = "/auth/validate_password/";
-    if (e.target.value.length > 0){
-             myAjax(url, {password: e.target.value}, 'passwordHelp', e.target.id, 2);
+    if (e.target.value.length > 0) {
+        myAjax(url, {password: e.target.value}, 'passwordHelp', e.target.id, 2);
     }
 })
 
-confirmField.addEventListener('focusout', (e)=> {
+confirmField.addEventListener('focusout', (e) => {
     const password = $('#txtPassword');
     const help = $('#confirmHelp');
-    if (password.val() !== e.target.value){
+    if (password.val() !== e.target.value) {
         help.replaceWith(`<small id="confirmHelp" class="form-text text-danger">Passwords don't match</small>`);
         list[3] = 0;
     } else {
@@ -91,22 +91,20 @@ confirmField.addEventListener('focusout', (e)=> {
 })
 
 showConfirm.addEventListener('click', (e) => {
-    if(confirmField.type === 'password') {
+    if (confirmField.type === 'password') {
         confirmField.type = 'text';
         e.target.textContent = 'hide confirm'
-    }
-    else {
+    } else {
         confirmField.type = 'password'
         e.target.textContent = 'show confirm'
     }
 })
 
 showPassword.addEventListener('click', (e) => {
-    if(passwordField.type === 'password') {
+    if (passwordField.type === 'password') {
         passwordField.type = 'text';
         e.target.textContent = 'hide password'
-    }
-    else {
+    } else {
         passwordField.type = 'password'
         e.target.textContent = 'show password'
     }
@@ -114,21 +112,27 @@ showPassword.addEventListener('click', (e) => {
 
 $(document).on('submit', '#reg-form', (e) => {
     e.preventDefault();
-
-    if(all(list)){
+    if (all(list)) {
         $.ajax({
             url: '/auth/signup/',
             method: 'POST',
-            data: $(this).serialize(),
-            success: function(data){
-                alert('success')
-            }, error: function (error){
-                alert('error')
+            data: $('#reg-form').serialize(),
+            // data: JSON.stringify({password: 'password'}),
+            success: function (responseData) {
+                result.html(`<div class="alert alert-success text-center">${responseData['_msg']}</div>`)
+                setTimeout(()=>{document.location.assign('/auth/login')}, 3500);
+            }, error: function (error) {
+                console.log(error)
+                result.html(`<div class="alert alert-danger text-center">Something wrong occurred!</div>`)
             }
         })
-        result.html(`<div class="alert alert-success text-center">Registration Successful!</div>`)
+        setTimeout(() => {
+            result.html('')
+        }, 3000)
     } else {
         result.html(`<div class="alert alert-danger text-center">Missing relevant Information!</div>`)
-        setTimeout(() => {result.html('')}, 3000)
+        setTimeout(() => {
+            result.html('')
+        }, 3000)
     }
 })
