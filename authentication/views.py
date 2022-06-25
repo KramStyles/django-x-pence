@@ -96,6 +96,19 @@ class SignUpView(View):
 
         user = User.objects.create_user(username=username, email=email)
         user.set_password(password)
-        user.save()
+        user.is_active = False
+
+        # Send verification email
+
+        data = {
+            'email_subject': 'X-Pence :: Email Verification Mail',
+            'email_body': """
+                
+            """,
+            'to_email': email
+        }
+        func.send_email(data)
+
+        # user.save()
 
         return JsonResponse({'_msg': 'Account created Successfully'}, status=200)
