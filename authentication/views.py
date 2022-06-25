@@ -2,11 +2,13 @@ import json
 
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.contrib.sites.shortcuts import get_current_site
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views import View
 
 from .utils import Functions
+from lib import email_txt
 
 func = Functions()
 
@@ -94,19 +96,20 @@ class SignUpView(View):
         email = data['email']
         username = data['username']
 
-        user = User.objects.create_user(username=username, email=email)
-        user.set_password(password)
-        user.is_active = False
+        # user = User.objects.create_user(username=username, email=email)
+        # user.set_password(password)
+        # user.is_active = False
 
         # Send verification email
+        encoded = func.encode_email(email)
+        url = f"{get_current_site(request).domain}/verify/{encoded}"
 
         data = {
             'email_subject': 'X-Pence :: Email Verification Mail',
-            'email_body': """
-                
-            """,
+            'email_body': email_txt.email_template(email, url),
             'to_email': email
         }
+        print(email, url)
         func.send_email(data)
 
         # user.save()
