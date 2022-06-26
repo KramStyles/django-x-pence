@@ -47,11 +47,12 @@ class VerifyView(View):
             context = {
                 'title': 'User Verified'
             }
-        except (TypeError, KeyError, OverflowError, User.DoesNotExist) as err:
+            messages.success(request, 'User is Verified')
+        except (TypeError, KeyError, OverflowError, User.DoesNotExist, UnicodeDecodeError) as err:
             context = {
                 'title': 'User Not Verified'
             }
-            print('Invalid Operation', err)
+            messages.error(request, f'User not Verified: {str}')
 
         return render(request, 'authentication/login.html', context)
 
