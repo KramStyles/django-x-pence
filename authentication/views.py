@@ -37,6 +37,25 @@ class RegisterView(View):
         return render(request, 'authentication/register.html', context)
 
 
+class VerifyView(View):
+    def get(self, request, encoded_email):
+        try:
+            decoded_email = func.decode_email(encoded_email)
+            user = User.objects.get(email=decoded_email)
+            user.is_active = True
+            user.save()
+            context = {
+                'title': 'User Verified'
+            }
+        except (TypeError, KeyError, OverflowError, User.DoesNotExist) as err:
+            context = {
+                'title': 'User Not Verified'
+            }
+            print('Invalid Operation', err)
+
+        return render(request, 'authentication/login.html', context)
+
+
 # REQUESTS
 
 class UsernameValidationView(View):
@@ -102,7 +121,7 @@ class SignUpView(View):
 
         # Send verification email
         encoded = func.encode_email(email)
-        url = f"{get_current_site(request).domain}/verify/{encoded}"
+        url = f"{request.scheme}://{get_current_site(request).domain}/verify/{encoded}"
 
         data = {
             'email_subject': 'X-Pence :: Email Verification Mail',
