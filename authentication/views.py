@@ -2,11 +2,13 @@ import json
 
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.contrib.sites.shortcuts import get_current_site
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views import View
 
 from .utils import Functions
+from lib import email_txt
 
 func = Functions()
 
@@ -33,6 +35,26 @@ class RegisterView(View):
             'title': 'Registration'
         }
         return render(request, 'authentication/register.html', context)
+
+
+class VerifyView(View):
+    def get(self, request, encoded_email):
+        try:
+            decoded_email = func.decode_email(encoded_email)
+            user = User.objects.get(email=decoded_email)
+            user.is_active = True
+            user.save()
+            context = {
+                'title': 'User Verified'
+            }
+            messages.success(request, 'User is Verified')
+        except (TypeError, KeyError, OverflowError, User.DoesNotExist, UnicodeDecodeError) as err:
+            context = {
+                'title': 'User Not Verified'
+            }
+            messages.error(request, f'User not Verified: {str}')
+
+        return render(request, 'authentication/login.html', context)
 
 
 # REQUESTS
@@ -96,6 +118,20 @@ class SignUpView(View):
 
         user = User.objects.create_user(username=username, email=email)
         user.set_password(password)
+        user.is_active = False
+
+        # Send verification email
+        encoded = func.encode_email(email)
+        url = f"{request.scheme}://{get_current_site(request).domain}/verify/{encoded}"
+
+        data = {
+            'email_subject': 'X-Pence :: Email Verification Mail',
+            'email_body': email_txt.email_template(email, url),
+            'to_email': email
+        }
+        print(email, url)
+        func.send_email(data)
+
         user.save()
 
         return JsonResponse({'_msg': 'Account created Successfully'}, status=200)
