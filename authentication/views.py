@@ -96,9 +96,9 @@ class SignUpView(View):
         email = data['email']
         username = data['username']
 
-        # user = User.objects.create_user(username=username, email=email)
-        # user.set_password(password)
-        # user.is_active = False
+        user = User.objects.create_user(username=username, email=email)
+        user.set_password(password)
+        user.is_active = False
 
         # Send verification email
         encoded = func.encode_email(email)
@@ -112,6 +112,6 @@ class SignUpView(View):
         print(email, url)
         func.send_email(data)
 
-        # user.save()
+        user.save()
 
         return JsonResponse({'_msg': 'Account created Successfully'}, status=200)
