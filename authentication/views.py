@@ -8,7 +8,7 @@ from django.shortcuts import render
 from django.views import View
 
 from .utils import Functions
-from lib import email_txt
+from .lib import email_txt
 
 func = Functions()
 
